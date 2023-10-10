@@ -1,5 +1,4 @@
 class ProrityQueue {
-
     constructor() {
         this.heap = [null];
     }
@@ -75,55 +74,3 @@ class ProrityQueue {
         return this.heap.at(-1);
     }
 }
-
-
-const fs = require('fs')
-const input = fs.readFileSync(process.platform === 'linux' ? '/dev/stdin' : 'input.txt' )
-    .toString()
-    .trim()
-    .split('\n')
-    
-
-const [V, E] = input[0].split(' ').map(Number);
-const K = Number(input[1].trim());
-const graph = Array.from({length : V + 1}, () => []);
-
-for (let i = 2; i < input.length; i++) {
-    const [u, v, w] = input[i].split(' ').map(Number);
-    graph[u].push([v, w]);
-}
-
-
-const queue = new ProrityQueue();
-
-const dist = Array.from({length: V + 1}, () => Infinity);
-const visited = new Array(V + 1).fill(false);
-dist[K] = 0;
-queue.enqueue([K, 0]);
-
-while(queue.isFull()) {
-    const [v, w] = queue.dequeue();
-
-    if (visited[v] === true) {
-        continue;
-    }
-
-    visited[v] = true;
-    for (const [v2, w2] of graph[v]) {
-        if (dist[v2] > dist[v] + w2) {
-            dist[v2] = dist[v] + w2;
-            queue.enqueue([v2, dist[v2]]);
-        }
-    }
-}   
-
-
-const answer = dist.slice(1).map(d => {
-    if (d === Infinity) {
-        return 'INF'
-    } else {
-        return d;
-    }
-}).join('\n')
-
-console.log(answer.trim());
