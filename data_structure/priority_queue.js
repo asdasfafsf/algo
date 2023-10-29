@@ -71,6 +71,6 @@ class ProrityQueue {
     }
 
     peek = () => {
-        return this.heap.at(-1);
+        return this.heap[1];
     }
 }
