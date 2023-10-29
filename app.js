@@ -1,24 +1,36 @@
+
+
 const fs = require('fs')
 
 
-const input = +(fs
+const input = fs
     .readFileSync(process.platform === 'linux' ? '/dev/stdin' : 'input.txt' )
     .toString()
-    .trim());
+    .trim()
+    .split('\n')
 
-const dp = [0, 1, 2];
-for (let i = dp.length - 1; i <= input; i++) {
-    const root = Math.sqrt(i);
+const [N, M] = input.shift().split(' ').map(Number);
+const arr = input.map(elem => elem.split(''));
+const visited = arr.map(elem => elem.map(e => false));
 
-    if (root === parseInt(root)) {
-        dp[i] = 1;
-        continue;
+
+
+const dp = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+const queue = [[0, 0]];
+visited[0][0] = true;
+let current = 0;
+
+let count = 0;
+
+while (queue.length !== current) {
+    const [cy, cx] = queue[current];
+    visited[cy][cx] = true;
+
+    for (let i = 0; i < dp.length; i++) {
+        const [dy, dx] = dp[i];
+        const [tx, ty] = []
     }
 
-    dp[i] = 50000;
-    for (let j = 1; j <= root; j++) {
-        dp[i] = Math.min(dp[i], dp[i - Math.pow(j, 2)] + 1)
-    }
+    current++;
 }
 
-console.log(dp.at(input));
